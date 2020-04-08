@@ -10,24 +10,25 @@ typedef struct{
 	int etat;
 }Livre; 
 
-void get_informations_utilisateur(){
+void get_informations_utilisateur(Livre * livre){
 	
 	char str[100];
 	char * pch;
-
-	
-	
+	int i = 0;
+	int info = 0;
 	do{ 
 		scanf("%s", str);
-		scanf("%[^\n]", str);
 		pch = strtok (str," ");
 		int len = strlen(pch);
-		char d[] = " ";
+		char d[] = " by ";
 		char *p = strtok(pch, d);
+		
 		while(p != NULL)
 		{
-			printf("'%s'\n", p);
+			if(info%2 == 0){strcpy(livre[i].nom, p);}
+			else{strcpy(livre[i].auteur, p);}
 			p = strtok(NULL, d);
+			info++;
 		}
 	}while(strncmp(pch, "end", 2) != 0);
 
@@ -45,8 +46,11 @@ void get_informations_utilisateur(){
 
 
 int main(){
+	Livre livre [100];
 
-	get_informations_utilisateur();
+	get_informations_utilisateur(livre);
+	printf("%s\n", livre[0].nom);
+	printf("%s\n", livre[0].auteur);
 
 	return 0;
 }
