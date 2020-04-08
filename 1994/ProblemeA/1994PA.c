@@ -25,12 +25,13 @@ void get_informations_utilisateur(Livre * livre){
 		
 		while(p != NULL)
 		{
+			//printf("%s\n", p);
 			if(info%2 == 0){strcpy(livre[i].nom, p);}
 			else{strcpy(livre[i].auteur, p);}
 			p = strtok(NULL, d);
 			info++;
 		}
-	}while(strncmp(pch, "end", 2) != 0);
+	}while(strncmp(pch, "end", 3) != 0);
 
 
 	/*char str[] = "Hello by Welcome";
@@ -44,13 +45,19 @@ void get_informations_utilisateur(Livre * livre){
 	}*/
 }
 
+void trier(Livre * livre){
+
+}
+
 
 int main(){
 	Livre livre [100];
 
-	get_informations_utilisateur(livre);
+	/*get_informations_utilisateur(livre);
 	printf("%s\n", livre[0].nom);
-	printf("%s\n", livre[0].auteur);
+	printf("%s\n", livre[0].auteur);*/
+
+
 
 	return 0;
 }
