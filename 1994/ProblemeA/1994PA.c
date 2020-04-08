@@ -46,25 +46,7 @@ void get_informations_livre(Livre * livre){
 }
 
 void get_informations_etat_livre(Livre * livre){
-	char str[100];
-	char * pch;
-	int i = 0;
-	do{ 
-		scanf("%s", str);
-		pch = strtok (str," ");
-		int len = strlen(pch);
-
-		char *p = strtok(pch, d);
-		
-		while(p != NULL)
-		{
-			//printf("%s\n", p);
-			if(info%2 == 0){strcpy(livre[i].nom, p);}
-			else{strcpy(livre[i].auteur, p);}
-			p = strtok(NULL, d);
-			info++;
-		}
-	}while(strncmp(pch, "end", 3) != 0);
+	
 }
 
 
