@@ -32,3 +32,19 @@ NOEUD *creer_noeud(char *nom){
     return noeud;
 }
 
+
+void liberer_memoire_noeud(NOEUD *n){ 
+	free(n->nom); 
+	for(int i=0;i<n->nombredDescendant;i++){
+		free(n->descendant[i]); 
+	}
+
+	free(n->descendant);
+	for(int i=0;i<n->nombreAncetre;i++){ 
+		free(n->ancetre);
+	}
+
+	free(n->ancetre); 
+	free(n->poids);
+	free(n); 
+}
