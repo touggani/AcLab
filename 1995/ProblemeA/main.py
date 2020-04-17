@@ -1,13 +1,14 @@
 import modules.fileParser as parser
-import modules.utils as utils
+import modules.mapping as mapping
+import modules.pathfinder as pathfinder
 
 def main():
     fileData = parser.FileData("files/sample_input.txt")
 
-    map = utils.Map()
+    map = mapping.Map()
     for x in range(len(fileData.weights)):
         for y in range(len(fileData.weights[x])):
-            map.addLocation(utils.Location((x+1, y+1), fileData.weights[x][y]))
+            map.addLocation(mapping.Location((x+1, y+1), fileData.weights[x][y]))
 
     for route in fileData.routes:
         origin = (route[0], route[1])
@@ -21,6 +22,9 @@ def main():
 
     print(fileData.routes)
     print(fileData.queries)
+
+    path = pathfinder.Path(map.getFromPosition((1,1)), map.getFromPosition((1,3)))
+    path.visitNode(pathfinder.Node(map.getFromPosition((1,2)), map.getFromPosition((1,1)), map.getFromPosition((1,3))))
 
 
 if __name__ == '__main__':
