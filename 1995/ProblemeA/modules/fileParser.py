@@ -10,4 +10,15 @@ class FileData:
 
         self.size = (content[0][0], content[0][1])
         self.weights = content[1:self.size[0]+1]
-        self.routes = content[self.size[0]+1:]
+        self.routes = []
+        self.queries = []
+
+        isQuery = False
+        for route in content[self.size[0]+1:]:
+            if route == [0, 0, 0, 0]:
+                isQuery = True
+                continue
+            if not isQuery:
+                self.routes.append(route)
+            else:
+                self.queries.append(route)
