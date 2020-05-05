@@ -48,3 +48,27 @@ void liberer_memoire_noeud(NOEUD *n){
 	free(n->poids);
 	free(n); 
 }
+
+
+void get_ancetre(NOEUD *n, int *tab, int index) {
+int i;
+int t[index];
+for(i=0;i<index;i++) 
+	v[i]=-1; 
+if(p->anc_count == 0) 
+	return; 
+if(p==NULL || v[p->index]>=0) 
+	return; 
+else {
+for(i=0;i<p->anc_count;i++) {
+marked[p->anc[i]->index] = p->weight[i] + marked[p->index]; ++v[p->index];
+collect_anc(p->anc[i], marked, index);
+} }
+}
+
+
+
+
+
+
+
