@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <math.h>
 
 #define OUT    0 
 #define IN    1 
@@ -48,56 +49,80 @@ float distance_faisable(Voiture voiture){
 unsigned compterMotParLigne(char *str) 
 { 
     int etat = OUT; 
-    unsigned nb = 0;  // word count 
+    unsigned nb = 0;
   
-    // Scan all characters one by one 
-    while (*str) 
-    { 
-        // If next character is a separator, set the  
-        // state as OUT 
-        if (*str == ' ' || *str == '\n' || *str == '\t') 
+    while (*str){  
+        if(*str == ' ' || *str == '\n' || *str == '\t') 
             etat = OUT; 
-  
-        // If next character is not a word separator and  
-        // state is OUT, then set the state as IN and  
-        // increment word count 
-        else if (etat == OUT) 
-        { 
+        else if (etat == OUT){ 
             etat = IN; 
             ++nb; 
         } 
-  
-        // Move to next character 
         ++str; 
     } 
-  
     return nb; 
 } 
 
-int lecture_fichier(){
+int getNombreVoyage(){
 	FILE* fichier = NULL;
     fichier = fopen("DetailVoyage.txt","r");
-    const char * separators = " ";
+    int cmp = 0;
 
     if (fichier != NULL)
     {
         char ligne[81] ;
-		/* le fichier est supposé ouvert en mode "rt" */
+		while ( fgets(ligne, 81, fichier) != NULL ){ 
+			int nbmot = compterMotParLigne(ligne);
+		    if(nbmot == 1){cmp += 1;}
+        }
+        fclose(fichier); 
+    }
+    return cmp;
+}
+
+int lecture_fichier(Voyage *listeVoyage, int nbVoyage){
+	FILE* fichier = NULL;
+    fichier = fopen("DetailVoyage.txt","r");
+    const char * separators = " ";
+    int i = 0;
+    int y = 0;
+    int istation = 0;
+    
+    if (fichier != NULL)
+    {
+        char ligne[81] ;
 		while ( fgets(ligne, 81, fichier) != NULL ){ /*fin de fichier non atteinte*/
 			int nbmot = compterMotParLigne(ligne);
 		    char * strToken = strtok ( ligne, separators );
-		    while ( strToken != NULL ) {
-		        if(nbmot == 1){
+		    
+	        if(nbmot == 1){
+	        	listeVoyage[i].distanceVoyage = (float)strtod(strToken,NULL);
+	        	istation = 0;
+	        }
+	        
+	        
 
+		        else if(nbmot == 2){
+		        	listeVoyage[i].stations = malloc(sizeof(Station)*7);
+		        	while ( strToken != NULL ) {
+		        		printf("%f\n", (float)strtod(strToken,NULL));
+		        		if(istation%2){listeVoyage[i].stations[istation].distanceStation = (float)strtod(strToken,NULL);}
+		        		else{listeVoyage[i].stations[istation].prixGallon = (float)strtod(strToken,NULL);}
+		        		strToken = strtok ( NULL, separators );
+		        	}
+		        	istation++;
 		        }
-		        if(nbmot == 2){
-
+		        else if(nbmot == 4){
+		        	while ( strToken != NULL ) {
+		        		if(y == 0){listeVoyage[i].voiture.capaciteReservoir = (float)strtod(strToken,NULL);}
+		        		else if(y == 1){listeVoyage[i].voiture.kilometreParGallon = (float)strtod(strToken,NULL);}
+		        		else if(y == 2){listeVoyage[i].voiture.niveauReservoir = (float)strtod(strToken,NULL);}
+		        		strToken = strtok ( NULL, separators );
+		        		y++;
+		        	}
+		        	y = 0;
 		        }
-		        if(nbmot == 4)
-		        // On demande le token suivant.
-		        strToken = strtok ( NULL, separators );
-		    }
-        }
+	    	}
         fclose(fichier); // On ferme le fichier qui a été ouvert
     }
 
@@ -124,10 +149,14 @@ int main()
 	printf("2: %f\n", stations[0].prixGallon);
 	printf("distance: %f\n", distance);*/
     /* Creation de la voiture */
-    Voyage voyage;
 
+    int nbVoyage = getNombreVoyage();
+    Voyage *listeVoyage = malloc(sizeof(Voyage)*nbVoyage);
+	lecture_fichier(listeVoyage, nbVoyage);
 
-    lecture_fichier(voyage);
+	printf("%f\n", listeVoyage[0].voiture.capaciteReservoir);
+	printf("%f\n", listeVoyage[0].stations[0].distanceStation);
+	printf("%f\n", listeVoyage[0].stations[0].prixGallon);
 
 
     return 0;
