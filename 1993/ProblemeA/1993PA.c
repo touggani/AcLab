@@ -35,12 +35,20 @@ Station* malloc_station(int nombreStation){
     return stations;
 }
 
-void liberer_memoire(){}
+void liberer_memoire(Station * stations){
+	free(stations);
+}
 
 /* Distance résalisable avec la quantite de gallon dans le reservoir */
 float distance_faisable(Voiture voiture){
     return voiture.niveauReservoir * voiture.kilometreParGallon;
 }
+
+float passage_station_service(){
+	return 2;
+}
+
+
 
 
 
@@ -99,30 +107,30 @@ int lecture_fichier(Voyage *listeVoyage, int nbVoyage){
 	        	listeVoyage[i].distanceVoyage = (float)strtod(strToken,NULL);
 	        	istation = 0;
 	        }
-	        
-	        
+	        	        
+	        else if(nbmot == 2){
+	        	listeVoyage[i].stations = malloc(sizeof(Station)*7);
+	        	while ( strToken != NULL ) {
+	        		//printf("%f\n", (float)strtod(strToken,NULL));
+	        		if(istation%2){listeVoyage[i].stations[istation].distanceStation = (float)strtod(strToken,NULL);}
+	        		else{listeVoyage[i].stations[istation].prixGallon = (float)strtod(strToken,NULL);}
+	        		strToken = strtok ( NULL, separators );
+	        	}
+	        	istation++;
+	        }
 
-		        else if(nbmot == 2){
-		        	listeVoyage[i].stations = malloc(sizeof(Station)*7);
-		        	while ( strToken != NULL ) {
-		        		printf("%f\n", (float)strtod(strToken,NULL));
-		        		if(istation%2){listeVoyage[i].stations[istation].distanceStation = (float)strtod(strToken,NULL);}
-		        		else{listeVoyage[i].stations[istation].prixGallon = (float)strtod(strToken,NULL);}
-		        		strToken = strtok ( NULL, separators );
-		        	}
-		        	istation++;
-		        }
-		        else if(nbmot == 4){
-		        	while ( strToken != NULL ) {
-		        		if(y == 0){listeVoyage[i].voiture.capaciteReservoir = (float)strtod(strToken,NULL);}
-		        		else if(y == 1){listeVoyage[i].voiture.kilometreParGallon = (float)strtod(strToken,NULL);}
-		        		else if(y == 2){listeVoyage[i].voiture.niveauReservoir = (float)strtod(strToken,NULL);}
-		        		strToken = strtok ( NULL, separators );
-		        		y++;
-		        	}
-		        	y = 0;
-		        }
-	    	}
+	        else if(nbmot == 4){
+	        	while ( strToken != NULL ) {
+	        		if(y == 0){listeVoyage[i].voiture.capaciteReservoir = (float)strtod(strToken,NULL);}
+	        		else if(y == 1){listeVoyage[i].voiture.kilometreParGallon = (float)strtod(strToken,NULL);}
+	        		else if(y == 2){listeVoyage[i].voiture.niveauReservoir = (float)strtod(strToken,NULL);}
+	        		strToken = strtok ( NULL, separators );
+	        		y++;
+	        	}
+	        	i++;
+	        	y = 0;
+	        }
+    	}
         fclose(fichier); // On ferme le fichier qui a été ouvert
     }
 
@@ -144,7 +152,8 @@ int main()
 	int nombreStation = 1;
 
     Station *stations = malloc_station(nombreStation);    
-	
+	liberer_memoire(stations);
+
 	printf("1: %f\n", stations[0].distanceStation);
 	printf("2: %f\n", stations[0].prixGallon);
 	printf("distance: %f\n", distance);*/
@@ -154,9 +163,10 @@ int main()
     Voyage *listeVoyage = malloc(sizeof(Voyage)*nbVoyage);
 	lecture_fichier(listeVoyage, nbVoyage);
 
-	printf("%f\n", listeVoyage[0].voiture.capaciteReservoir);
-	printf("%f\n", listeVoyage[0].stations[0].distanceStation);
-	printf("%f\n", listeVoyage[0].stations[0].prixGallon);
+	//printf("%f\n", listeVoyage[1].voiture.capaciteReservoir);
+	//printf("%f\n", listeVoyage[1].voiture.kilometreParGallon);
+	printf("%f\n", listeVoyage[1].stations[0].distanceStation);
+	printf("%f\n", listeVoyage[1].stations[0].prixGallon);
 
 
     return 0;
