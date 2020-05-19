@@ -15,16 +15,8 @@ def main():
         destination = (route[2], route[3])
         map.addRoute(origin, destination)
 
-
-    for location in map.getLocations():
-        print(location.getPosition(), "->", location.getRoutes())
-
-
-    print(fileData.routes)
-    print(fileData.queries)
-
     path = pathfinder.Path(map.getFromPosition((1,1)), map.getFromPosition((1,3)))
-    path.visitNode(pathfinder.Node(map.getFromPosition((1,2)), map.getFromPosition((1,1)), map.getFromPosition((1,3))))
+    path.findPath()
 
 
 if __name__ == '__main__':
