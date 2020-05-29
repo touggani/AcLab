@@ -1,2 +1,7 @@
-the pianist by moi
-BORROW the pianist
+The Canterbury Tales by Chaucer
+Algorithms by Sedgewick
+The C programming Language by Kernighan
+END
+BORROW Algorithms
+BORROW The Canterbury Tales
+END

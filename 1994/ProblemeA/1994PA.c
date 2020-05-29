@@ -43,16 +43,16 @@ int lireFichier(Livre * livre){
 		    		/*strToken = strtok ( NULL, separator2 );
 		    		strncpy(stck[y], strToken, 10);
 		    		strcat(livre[i].auteur,stck[y]);*/
-		    		printf("%s\n", strToken);
+		    		//printf("%s\n", strToken);
 		    		strToken = strtok ( NULL, separator1 );
 		    	}
 		    } 
 		    i++;      
     	}
-        fclose(fichier); // On ferme le fichier qui a été ouvert
+        fclose(fichier);
     }
 
-    return 0;
+    return i;
 }
 
 void get_informations_etat_livre(Livre * livre){
@@ -60,31 +60,45 @@ void get_informations_etat_livre(Livre * livre){
 }
 
 
-// void trier(Livre * livre){
-// 	int y;
-// 	Livre c;
-// 	for (int i = 0; i < len(livre); ++i){
-// 		y = i;
-// 		while(y<len(livre)){
-// 			if(strcmp(livre[i].auteur, livre[y].auteur) < 0){
-// 				c = livre[i];
-// 				livre[i] = livre[y];
-// 				livre[y] = c;
-// 			}
-// 			y++;
-// 		}
-// 	}
-// }
+void trier(Livre * livre, int taille){
+	int y;
+	Livre c;
+	for (int i = 0; i < taille; ++i){
+		y = i;
+		while(y<taille){
+			if(strcmp(livre[i].nom, livre[y].nom) < 0){
+				c = livre[i];
+				livre[i] = livre[y];
+				livre[y] = c;
+			}
+			y++;
+		}
+	}
+}
+
+void test_remplir_livre(Livre * livre){
+	//livre[0].nom = "tttt";
+	strcat(livre[0].nom,"The Canterbury Tales");
+	strcat(livre[0].auteur,"Chaucer");
+	
+	strcat(livre[0].nom,"Algorithms");
+	strcat(livre[0].auteur,"Sedgewick");
+	strcat(livre[0].etat,"BORROW");
+
+	strcat(livre[0].nom,"The C programming Language");
+	strcat(livre[0].auteur,"Kernighan");
+	strcat(livre[0].etat,"RETURN");
+}
 
 
 int main(){
 	Livre livre [100];
-	lireFichier(livre);
-	/*get_informations_utilisateur(livre);
-	printf("%s\n", livre[0].nom);
-	printf("%s\n", livre[0].auteur);*/
+	int taille = lireFichier(livre);
 
-	//printf("%s\n", livre[0].etat);
-	//printf("%s\n", livre[0].nom);
+
+	test_remplir_livre(livre);
+	printf("%s\n", livre[0].nom);
+	trier(livre, taille);
+	printf("%s\n", livre[0].nom);
 	return 0;
 }
